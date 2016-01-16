@@ -13,4 +13,7 @@ def test_get_fresh():
     new_issues = first_timers.get_fresh(example_issues[:-1], example_issues)
     assert new_issues[0] == example_issues[-1]
 
-
+def test_humanize_url():
+    api_url = "https://api.github.com/repos/tidusjar/NZBDash/issues/53"
+    human_url = 'https://github.com/tidusjar/NZBDash/issues/53'
+    assert first_timers.humanize_url(api_url) == human_url
