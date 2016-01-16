@@ -1,0 +1,4 @@
+tweepy
+Nose
+tinydb
+requests
