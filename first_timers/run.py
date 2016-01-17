@@ -17,6 +17,7 @@ def updateDB(all_issues, db_path):
         help='Do not post any tweets, just populate the DB.')
 @click.option('--db-path',
         prompt='Database file',
+        default='data/db.json',
         help='Old issues in a JSON list.')
 @click.option('--create',
         is_flag=True,
