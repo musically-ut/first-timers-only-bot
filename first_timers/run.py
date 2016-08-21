@@ -51,18 +51,22 @@ def run(only_save, db_path, create, creds_path, debug):
     all_issues = fresh_issues + old_issues
 
     if not only_save:
-        if not os.path.exists(creds_path):
-            print('Credentials file does not exist.', file=sys.stdout)
-            sys.exit(-1)
+        try:
+            if not os.path.exists(creds_path):
+                print('Credentials file does not exist.', file=sys.stdout)
+                sys.exit(-1)
 
-        with open(creds_path, 'r') as credsFile:
-            creds = json.load(credsFile)
+            with open(creds_path, 'r') as credsFile:
+                creds = json.load(credsFile)
 
-        click.echo('Tweeting {} tweets.'.format(len(fresh_issues)))
-        tweets = FT.tweet_issues(fresh_issues, creds, debug)
+            click.echo('Tweeting {} tweets.'.format(len(fresh_issues)))
+            tweets = FT.tweet_issues(fresh_issues, creds, debug)
 
-        for tweet in tweets:
-            click.echo('\t' + tweet)
+            for tweet in tweets:
+                click.echo('\t' + tweet)
+
+        except UnicodeEncodeError as e:
+            click.echo('Unable to post tweets because: ' + str(e))
 
     updateDB(all_issues, db_path)
 
