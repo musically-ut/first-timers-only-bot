@@ -17,4 +17,4 @@ See it in action at `@first_tmrs_only`_.
 Acknowledgement
 ===============
 
-Profile icon made by `Freepik <http://www.freepik.com>`_ from `http://flaticon.com <http://flaticon.com>`_ is licenced under `CC BY 3.0 <http://creativecommons.org/licenses/by/3.0/>`_.
+The header image for the Twitter page and the icon was generously created by `Issac Mikel <http://mikel.design/>`_ (`@icusficus <https://twitter.com/icusficus>`_).
