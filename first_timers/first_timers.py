@@ -75,7 +75,7 @@ def tweet_issues(issues, creds, debug=False):
         tweets.append(tweet)
 
         if not debug:
-            api.update_status(tweet)
+            api.update_status(tweet.encode('utf-8'))
 
     return tweets
 
