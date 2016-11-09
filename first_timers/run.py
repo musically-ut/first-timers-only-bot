@@ -59,7 +59,10 @@ def run(only_save, db_path, create, creds_path, debug):
             with open(creds_path, 'r') as credsFile:
                 creds = json.load(credsFile)
 
-            click.echo('Tweeting {} tweets.'.format(len(fresh_issues)))
+            click.echo('Tweeting {} tweet(s).'.format(len(fresh_issues)))
+            for issue in fresh_issues:
+                click.echo('\t URL: ' + issue['url'])
+
             tweets = FT.tweet_issues(fresh_issues, creds, debug)
 
             for tweet in tweets:
