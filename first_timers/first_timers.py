@@ -72,10 +72,20 @@ def tweet_issues(issues, creds, debug=False):
         url = humanize_url(issue['url'])
 
         tweet = '{title} {url} {tags}'.format(title=title, url=url, tags=hashTags)
-        tweets.append(tweet)
 
-        if not debug:
-            api.update_status(tweet.encode('utf-8'))
+        try:
+            if not debug:
+                api.update_status(tweet.encode('utf-8'))
+
+            tweets.append({
+                'error': None,
+                'tweet': tweet
+            })
+        except Exception as e:
+            tweets.append({
+                'error': e,
+                'tweet': tweet
+            })
 
     return tweets
 

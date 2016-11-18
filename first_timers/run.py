@@ -67,7 +67,11 @@ def run(only_save, db_path, create, creds_path, debug):
             tweets = FT.tweet_issues(fresh_issues, creds, debug)
 
             for tweet in tweets:
-                click.echo('\t' + tweet)
+                if tweet['error'] is None:
+                    click.secho('\t' + tweet['tweet'], fg='green')
+                else:
+                    click.secho('\t' + tweet['tweet'], fg='red')
+                    click.secho('\t\tError: ' + str(tweet['error']), fg='red')
 
         except UnicodeEncodeError as e:
             click.secho('Unable to post tweets because: ' + str(e), fg='red')
