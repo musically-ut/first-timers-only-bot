@@ -25,7 +25,7 @@ def updateDB(all_issues, db_path):
 @click.option('--creds-path',
         prompt='Credentials file',
         default='',
-        help='File which contains Twitter account credentials.'
+        help='File which contains Twitter account credentials. '
              'Not needed if only saving to DB.')
 @click.option('--debug',
         is_flag=True,
@@ -33,8 +33,8 @@ def updateDB(all_issues, db_path):
 def run(only_save, db_path, create, creds_path, debug):
     dbExists = os.path.exists(db_path)
     if not dbExists and not create:
-        click.echo('DB file does not exist and argument'
-                   '--create was not passed.', err=True)
+        click.secho('DB file does not exist and argument'
+                    '--create was not passed.', err=True, fg='red')
         sys.exit(-1)
     elif dbExists and not create:
         with open(db_path, 'rb') as dbFile:
@@ -42,7 +42,8 @@ def run(only_save, db_path, create, creds_path, debug):
     elif not dbExists and create:
         old_issues = []
     else:
-        click.echo('DB file exists but --create was passed.', err=True)
+        click.secho('DB file exists but --create was passed.',
+                    err=True, fg='red')
         sys.exit(-1)
 
     # Getting the latest list of issues from Github
@@ -59,9 +60,9 @@ def run(only_save, db_path, create, creds_path, debug):
             with open(creds_path, 'r') as credsFile:
                 creds = json.load(credsFile)
 
-            click.echo('Tweeting {} tweet(s).'.format(len(fresh_issues)))
+            click.secho('Tweeting {} tweet(s).'.format(len(fresh_issues)))
             for issue in fresh_issues:
-                click.echo('\t URL: ' + issue['url'])
+                click.secho('\t URL: ' + issue['url'], fg='blue')
 
             tweets = FT.tweet_issues(fresh_issues, creds, debug)
 
@@ -69,7 +70,7 @@ def run(only_save, db_path, create, creds_path, debug):
                 click.echo('\t' + tweet)
 
         except UnicodeEncodeError as e:
-            click.echo('Unable to post tweets because: ' + str(e))
+            click.secho('Unable to post tweets because: ' + str(e), fg='red')
 
     updateDB(all_issues, db_path)
 
