@@ -65,17 +65,21 @@ def tweet_issues(issues, creds, debug=False):
     tweets = []
 
     for issue in issues:
+        # Not encoding here because Twitter treats code points as 1 character.
         title = issue['title']
         if len(title) > allowed_title_len:
             title = title[:allowed_title_len - 1] + ellipse
 
         url = humanize_url(issue['url'])
 
-        tweet = '{title} {url} {tags}'.format(title=title, url=url, tags=hashTags)
-
         try:
+            # Encoding here because .format will fail with Unicode characters.
+            tweet = '{title} {url} {tags}'.format(title=title.encode('utf-8'),
+                                                  url=url.encode('utf-8'),
+                                                  tags=hashTags.encode('utf-8'))
+
             if not debug:
-                api.update_status(tweet.encode('utf-8'))
+                api.update_status(tweet)
 
             tweets.append({
                 'error': None,

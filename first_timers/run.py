@@ -46,7 +46,7 @@ def run(only_save, db_path, create, creds_path, debug):
                     err=True, fg='red')
         sys.exit(-1)
 
-    # Getting the latest list of issues from Github
+    # Getting the latest list of issues from GitHub
     new_issues = FT.get_first_timer_issues()
     fresh_issues = FT.get_fresh(old_issues, new_issues)
     all_issues = fresh_issues + old_issues
