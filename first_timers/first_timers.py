@@ -6,7 +6,11 @@ import warnings
 import re
 
 ellipse = u'…'
-query = 'https://api.github.com/search/issues?q=label:first-timers-only+is:issue+is:open&sort=updated&order=desc'
+query_string = 'https://api.github.com/search/issues?q=label:{}+is:issue+is:open&sort=updated&order=desc'
+queries = [query_string.format('first-timers-only'),
+           query_string.format('low-hanging-fruit'),
+           query_string.format('up-for-grabs'),
+           query_string.format('beginners')]
 
 def humanize_url(api_url):
     """Make an API endpoint to an Human endpoint."""
@@ -22,15 +26,17 @@ def humanize_url(api_url):
 
 def get_first_timer_issues():
     """Fetches the first page of issues with the label first-timers-label which are still open."""
-    res = requests.get(query)
-    if res.status_code == 403:
-        warnings.warn('Rate limit reached')
-        return []
-    elif res.ok:
-        return res.json()['items']
-    else:
-        raise RuntimeError('Could not handle response: ' + str(res) + ' from the API.')
-
+    items=[]
+    for query in queries:
+        res = requests.get(query)
+        if res.status_code == 403:
+            warnings.warn('Rate limit reached')
+            return []
+        elif res.ok:
+            items.extend(res.json()['items'])
+        else:
+            raise RuntimeError('Could not handle response: ' + str(res) + ' from the API.')
+    return items
 
 def get_fresh(old_issue_list, new_issue_list):
     """Returns which issues are not present in the old list of issues."""
