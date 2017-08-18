@@ -31,7 +31,7 @@ def get_first_timer_issues():
         res = requests.get(query)
         if res.status_code == 403:
             warnings.warn('Rate limit reached')
-            return []
+            return items
         elif res.ok:
             items.extend(res.json()['items'])
         else:
