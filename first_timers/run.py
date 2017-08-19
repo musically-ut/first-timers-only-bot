@@ -9,7 +9,7 @@ import first_timers as FT
 def updateDB(all_issues, db_path):
     """Truncate and write the new list of issues in the DB."""
     with open(db_path, 'w') as dbFile:
-        json.dump(FT.limit_issues(all_issues), dbFile)
+        json.dump(FT.limit_issues(all_issues), dbFile, indent=2)
 
 @click.command()
 @click.option('--only-save',
