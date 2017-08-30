@@ -4,6 +4,7 @@ import tweepy
 import requests
 import warnings
 import re
+import json
 
 ellipse = u'…'
 query_string = 'https://api.github.com/search/issues?q=label:{}+is:issue+is:open&sort=updated&order=desc'
@@ -43,7 +44,28 @@ def get_fresh(old_issue_list, new_issue_list):
     old_urls = set(x['url'] for x in old_issue_list)
     return [x for x in new_issue_list if x['url'] not in old_urls]
 
+def get_primary_language(url):
+    """Returns the languages of the repo"""
+    """GET /repos/:owner/:repo/languages"""
+    url = (url.split("/issues/")[0] + "/languages").replace("https://github.com/", "https://api.github.com/repos/")
+    response = requests.get(url)
+    if (response.status_code == 200):
+        languages = json.loads(response.text)
+        return  sorted(languages, key=languages.get)[-1]
+    else :
+        warnings.warn("Can't ge the languages")
 
+def get_hashtags(url):
+    """Returns all the hashtags to be used in the repo """
+    defaultTags = ["github"]
+    hashtags = []
+    hashtags += defaultTags
+    language = get_primary_language(url)
+    if language:
+        hashtags.append(language)
+
+    return ["#"+hashtag for hashtag in hashtags]
+    
 def tweet_issues(issues, creds, debug=False):
     """Takes a list of issues and credentials and tweets through the account
     associated with the credentials.
@@ -64,9 +86,6 @@ def tweet_issues(issues, creds, debug=False):
     conf = api.configuration()
 
     url_len = conf['short_url_length_https']
-    hashTags = u'#github'
-    # 1 space with URL and 1 space before hashtags.
-    allowed_title_len = 140 - (url_len + 1) - (len(hashTags) + 1)
 
     tweets = []
 
@@ -78,6 +97,9 @@ def tweet_issues(issues, creds, debug=False):
 
         url = humanize_url(issue['url'])
 
+        hashTags = " ".join( get_hashtags(url) )
+        # 1 space with URL and 1 space before hashtags.
+        allowed_title_len = 140 - (url_len + 1) - (len(hashTags) + 1)    
         try:
             # Encoding here because .format will fail with Unicode characters.
             tweet = '{title} {url} {tags}'.format(title=title.encode('utf-8'),
