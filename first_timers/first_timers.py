@@ -48,26 +48,26 @@ def get_fresh(old_issue_list, new_issue_list):
     old_urls = set(x['url'] for x in old_issue_list)
     return [x for x in new_issue_list if x['url'] not in old_urls]
 
-def get_primary_language(url):
+def get_primary_language(url, creds):
     """Returns the languages of the repo"""
-    github = Github(git_token)
+    github = Github(creds['Github Access Token'])
     match = re.match('https://github.com/(.*)/(.*)/issues/([0-9]*)', url)
     if match is None:
         raise RuntimeError('Format of API URLs has changed: ', api_url)
     user, repo, issue_num = match.group(1), match.group(2), match.group(3)
-    language = g.get_user( user ).get_repo( repo ).language
+    language = g.get_user(user).get_repo(repo).language
 
     return language
 
-def get_hashtags(url):
+def get_hashtags(url, creds):
     """Returns all the hashtags to be used in the repo """
-    defaultTags = ["github"]
     hashtags = []
-    hashtags += defaultTags
-    language = get_primary_language(url)
+    # get the primary language 
+    language = get_primary_language(url, creds)
     if language:
         hashtags.append(language)
-
+    # TODO: Add label hash tag
+    # 
     return ["#"+hashtag for hashtag in hashtags]
     
 def tweet_issues(issues, creds, debug=False):
@@ -101,7 +101,7 @@ def tweet_issues(issues, creds, debug=False):
 
         url = humanize_url(issue['url'])
 
-        hashTags = " ".join( get_hashtags(url) )
+        hashTags = " ".join(get_hashtags(url, creds))
         # 1 space with URL and 1 space before hashtags.
         allowed_title_len = 140 - (url_len + 1) - (len(hashTags) + 1)    
         try:
