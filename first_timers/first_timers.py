@@ -5,6 +5,10 @@ import requests
 import warnings
 import re
 import json
+import os
+from github import Github
+
+git_token = os.environ.get('GIT_TOKEN')
 
 ellipse = u'…'
 query_string = 'https://api.github.com/search/issues?q=label:{}+is:issue+is:open&sort=updated&order=desc'
@@ -46,14 +50,14 @@ def get_fresh(old_issue_list, new_issue_list):
 
 def get_primary_language(url):
     """Returns the languages of the repo"""
-    """GET /repos/:owner/:repo/languages"""
-    url = (url.split("/issues/")[0] + "/languages").replace("https://github.com/", "https://api.github.com/repos/")
-    response = requests.get(url)
-    if (response.status_code == 200):
-        languages = json.loads(response.text)
-        return  sorted(languages, key=languages.get)[-1]
-    else :
-        warnings.warn("Can't ge the languages")
+    github = Github(git_token)
+    match = re.match('https://github.com/(.*)/(.*)/issues/([0-9]*)', url)
+    if match is None:
+        raise RuntimeError('Format of API URLs has changed: ', api_url)
+    user, repo, issue_num = match.group(1), match.group(2), match.group(3)
+    language = g.get_user( user ).get_repo( repo ).language
+
+    return language
 
 def get_hashtags(url):
     """Returns all the hashtags to be used in the repo """

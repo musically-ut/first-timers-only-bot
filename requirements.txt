@@ -3,3 +3,4 @@ Nose
 requests
 click
 colorama
+pyGithub
