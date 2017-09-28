@@ -7,10 +7,7 @@ import re
 
 ellipse = u'…'
 query_string = 'https://api.github.com/search/issues?q=label:{}+is:issue+is:open&sort=updated&order=desc'
-queries = [query_string.format('first-timers-only'),
-           query_string.format('low-hanging-fruit'),
-           query_string.format('up-for-grabs'),
-           query_string.format('beginners')]
+queries = [query_string.format('first-timers-only')]
 
 def humanize_url(api_url):
     """Make an API endpoint to an Human endpoint."""
