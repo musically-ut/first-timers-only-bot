@@ -9,6 +9,7 @@ ellipse = u'…'
 query_string = 'https://api.github.com/search/issues?q=label:{}+is:issue+is:open&sort=updated&order=desc'
 queries = [query_string.format('first-timers-only')]
 
+
 def humanize_url(api_url):
     """Make an API endpoint to an Human endpoint."""
     match = re.match('https://api.github.com/repos/(.*)/(.*)/issues/([0-9]*)', api_url)
@@ -23,7 +24,7 @@ def humanize_url(api_url):
 
 def get_first_timer_issues():
     """Fetches the first page of issues with the label first-timers-label which are still open."""
-    items=[]
+    items = []
     for query in queries:
         res = requests.get(query)
         if res.status_code == 403:
@@ -34,6 +35,7 @@ def get_first_timer_issues():
         else:
             raise RuntimeError('Could not handle response: ' + str(res) + ' from the API.')
     return items
+
 
 def get_fresh(old_issue_list, new_issue_list):
     """Returns which issues are not present in the old list of issues."""
