@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function
-import tweepy
-import requests
-import warnings
 import re
+import warnings
+
+import requests
+import tweepy
 
 ellipse = u'…'
 query_string = 'https://api.github.com/search/issues?q=label:{}+is:issue+is:open&sort=updated&order=desc'
