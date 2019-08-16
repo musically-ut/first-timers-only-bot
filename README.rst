@@ -16,6 +16,8 @@ See it in action at `@first_tmrs_only`_.
 
 .. _@first_tmrs_only: https://twitter.com/first_tmrs_only
 
+You can also checkout `first_issues <https://github.com/arshadkazmi42/first-issues>`_ bot which tweets links to new ``good-first-issue`` issues on Github.
+
 Acknowledgement
 ===============
 
