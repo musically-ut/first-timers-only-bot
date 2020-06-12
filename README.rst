@@ -12,7 +12,7 @@ The motivation behind this is `a post <https://medium.com/@kentcdodds/first-time
 
 `N. Geisler <https://github.com/geislern>`_ added support for more labels: ``up-for-grabs``, ``beginners``, ``low-hanging-fruit``.
 
-See it in action at `@first_tmrs_only`_.
+See it in action at `@first_timers_only`_.
 
 .. _@first_tmrs_only: https://twitter.com/first_tmrs_only
 
