@@ -60,12 +60,13 @@ def tweet_issues(issues, creds, debug=False):
     api = tweepy.API(auth)
 
     # This results in an API call to /help/configuration
-    conf = api.configuration()
+    # conf = api.configuration()
 
-    url_len = conf['short_url_length_https']
+    # url_len = conf['short_url_length_https']
+    url_len = 30
     hashTags = u'#github'
     # 1 space with URL and 1 space before hashtags.
-    allowed_title_len = 140 - (url_len + 1) - (len(hashTags) + 1)
+    allowed_title_len = 280 - (url_len + 1) - (len(hashTags) + 1)
 
     tweets = []
 
