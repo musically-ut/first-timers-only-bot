@@ -10,11 +10,13 @@ Tweets links to new ``first-timers-only`` issues on Github.
 
 The motivation behind this is `a post <https://medium.com/@kentcdodds/first-timers-only-78281ea47455#.yfzmq6tqy>`_ made by `Kent C. Dodds <https://medium.com/@kentcdodds>`_. See also `www.firsttimersonly.com <http://www.firsttimersonly.com/>`_.
 
-`N. Geislern <https://github.com/geislern>`_ added support for more labels: ``up-for-grabs``, ``beginners``, ``low-hanging-fruit``.
+`N. Geisler <https://github.com/geislern>`_ added support for more labels: ``up-for-grabs``, ``beginners``, ``low-hanging-fruit``.
 
 See it in action at `@first_tmrs_only`_.
 
 .. _@first_tmrs_only: https://twitter.com/first_tmrs_only
+
+You can also checkout `first_issues <https://github.com/arshadkazmi42/first-issues>`_ bot which tweets links to new ``good-first-issue`` issues on Github.
 
 Acknowledgement
 ===============
